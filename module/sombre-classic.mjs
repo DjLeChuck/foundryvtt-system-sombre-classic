@@ -105,7 +105,7 @@ async function createItemMacro(data, slot) {
       type: "script",
       img: item.img,
       command: command,
-      flags: { "sombre-classic.itemMacro": true }
+      flags: { "sombreClassic.itemMacro": true }
     });
   }
   game.user.assignHotbarMacro(macro, slot);

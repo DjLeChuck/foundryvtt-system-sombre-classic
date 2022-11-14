@@ -31,7 +31,7 @@ export class SombreActor extends Actor {
   prepareDerivedData() {
     const actorData = this;
     const systemData = actorData.system;
-    const flags = actorData.flags.sombre-classic || {};
+    const flags = actorData.flags.sombreClassic || {};
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
