@@ -17,10 +17,10 @@
     }
   ],
   "esmodules": [
-    "module/boilerplate.mjs"
+    "module/sombre-classic.mjs"
   ],
   "styles": [
-    "css/boilerplate.css"
+    "css/sombre-classic.css"
   ],
   "scripts": [ ],
   "packs": [ ],
