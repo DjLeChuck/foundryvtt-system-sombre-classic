@@ -1,0 +1,64 @@
+{
+  "Actor": {
+    "types": [
+      "character",
+      "npc"
+    ],
+    "templates": {
+      "base": {
+        "mind": {
+          "value": 12,
+          "min": 0,
+          "max": 12
+        },
+        "body": {
+          "value": 12,
+          "min": 0,
+          "max": 12
+        },
+        "profession": "",
+        "personality": "",
+        "advantage": "",
+        "disadvantage": ""
+      }
+    },
+    "character": {
+      "templates": [
+        "base"
+      ]
+    },
+    "npc": {
+      "templates": [
+        "base"
+      ],
+      "cr": 0
+    }
+  },
+  "Item": {
+    "types": [
+      "item",
+      "advantage",
+      "disadvantage"
+    ],
+    "templates": {
+      "base": {
+        "description": ""
+      }
+    },
+    "item": {
+      "templates": [
+        "base"
+      ]
+    },
+    "advantage": {
+      "templates": [
+        "base"
+      ]
+    },
+    "disadvantage": {
+      "templates": [
+        "base"
+      ]
+    }
+  }
+}
