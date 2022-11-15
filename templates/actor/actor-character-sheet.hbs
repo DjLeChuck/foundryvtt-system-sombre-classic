@@ -1,0 +1,81 @@
+<form class="{{cssClass}} {{actor.type}} flexcol" autocomplete="off">
+  <header class="flexcol">
+    <div class="flexrow">
+      <div class="resource">
+        <label for="actor.name" class="resource-label">__nom</label>
+        <div class="resource-content flexrow flex-center flex-between">
+          <input type="text" name="actor.name" id="actor.name" value="{{actor.name}}" data-dtype="String" />
+        </div>
+      </div>
+      <div class="resource">
+        <div class="resource flex-group-center">
+          <label for="system.profession" class="resource-label">__profession</label>
+          <div class="resource-content flexrow flex-center flex-between">
+            <input type="text" name="system.profession" id="system.profession" value="{{system.profession}}"
+                   data-dtype="String" />
+          </div>
+        </div>
+        <div class="resource flex-group-center">
+          <label for="system.personality" class="resource-label">__personnalité</label>
+          <div class="resource-content flexrow flex-center flex-between">
+            <input type="text" name="system.personality" id="system.personality" value="{{system.personality}}"
+                   data-dtype="String" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flexrow">
+      <div class="resource">
+        <label for="system.advantage" class="resource-label">__avantage</label>
+        <div class="resource-content flexrow flex-center flex-between">
+          <input type="text" name="system.advantage" id="system.advantage" value="{{system.advantage}}"
+                 data-dtype="String" />
+        </div>
+      </div>
+      <div class="resource">
+        <label for="system.disadvantage" class="resource-label">__désavantage</label>
+        <div class="resource-content flexrow flex-center flex-between">
+          <input type="text" name="system.disadvantage" id="system.disadvantage" value="{{system.disadvantage}}"
+                 data-dtype="String" />
+        </div>
+      </div>
+    </div>
+  </header>
+{{log this}}
+  <section class="flexrow">
+    <fieldset>
+      <legend>__Esprit</legend>
+      <div class="grid grid-2col">
+        {{#each mind_gauge}}{{log this}}
+        <div>{{this.label}}</div>
+        <div>
+          <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="mind"
+                 aria-label="__Esprit {{this.value}}" title="__Esprit {{this.value}}"
+                 {{#if this.checked}}checked="checked"{{/if}} />
+        </div>
+        {{/each}}
+      </div>
+    </fieldset>
+    <div class="grid grid-2col">
+      {{#each mind_gauge}}
+      <div></div>
+      <div>{{this.value}}</div>
+      {{/each}}
+    </div>
+    <fieldset>
+      <legend>__Corps</legend>
+      <div class="grid">
+        {{#each body_gauge}}
+        <div>
+          <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="body"
+                 aria-label="__Corps {{this.value}}" title="__Corps {{this.value}}"
+                 {{#if this.checked}}checked="checked"{{/if}} />
+        </div>
+        <div>{{this.label}}</div>
+        {{/each}}
+      </div>
+    </fieldset>
+  </section>
+
+</form>
+

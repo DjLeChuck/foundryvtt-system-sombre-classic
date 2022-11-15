@@ -7,9 +7,9 @@
   return loadTemplates([
 
     // Actor partials.
-    "systems/sombre-classic/templates/actor/parts/actor-features.html",
-    "systems/sombre-classic/templates/actor/parts/actor-items.html",
-    "systems/sombre-classic/templates/actor/parts/actor-spells.html",
-    "systems/sombre-classic/templates/actor/parts/actor-effects.html",
+    "systems/sombre-classic/templates/actor/parts/actor-features.hbs",
+    "systems/sombre-classic/templates/actor/parts/actor-items.hbs",
+    "systems/sombre-classic/templates/actor/parts/actor-spells.hbs",
+    "systems/sombre-classic/templates/actor/parts/actor-effects.hbs",
   ]);
 };

@@ -10,7 +10,7 @@ export class SombreActorSheet extends ActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ['sombre-classic', 'sheet', 'actor'],
-      template: 'systems/sombre-classic/templates/actor/actor-sheet.html',
+      template: 'systems/sombre-classic/templates/actor/actor-sheet.hbs',
       width: 600,
       height: 600,
     });
@@ -18,7 +18,7 @@ export class SombreActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    return `systems/sombre-classic/templates/actor/actor-${this.actor.type}-sheet.html`;
+    return `systems/sombre-classic/templates/actor/actor-${this.actor.type}-sheet.hbs`;
   }
 
   /* -------------------------------------------- */
