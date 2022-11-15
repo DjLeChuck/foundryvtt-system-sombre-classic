@@ -41,41 +41,39 @@
       </div>
     </div>
   </header>
-{{log this}}
+
   <section class="flexrow">
     <fieldset>
       <legend>__Esprit</legend>
       <div class="grid grid-2col">
-        {{#each mind_gauge}}{{log this}}
-        <div>{{this.label}}</div>
-        <div>
-          <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="mind"
-                 aria-label="__Esprit {{this.value}}" title="__Esprit {{this.value}}"
-                 {{#if this.checked}}checked="checked"{{/if}} />
-        </div>
+        {{#each mind_gauge}}
+          <div>{{this.label}}</div>
+          <div>
+            <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="mind"
+                   aria-label="__Esprit {{this.value}}" title="__Esprit {{this.value}}"
+                   {{#if this.checked}}checked="checked"{{/if}} />
+          </div>
         {{/each}}
       </div>
     </fieldset>
     <div class="grid grid-2col">
       {{#each mind_gauge}}
-      <div></div>
-      <div>{{this.value}}</div>
+        <div></div>
+        <div>{{this.value}}</div>
       {{/each}}
     </div>
     <fieldset>
       <legend>__Corps</legend>
       <div class="grid">
         {{#each body_gauge}}
-        <div>
-          <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="body"
-                 aria-label="__Corps {{this.value}}" title="__Corps {{this.value}}"
-                 {{#if this.checked}}checked="checked"{{/if}} />
-        </div>
-        <div>{{this.label}}</div>
+          <div>
+            <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="body"
+                   aria-label="__Corps {{this.value}}" title="__Corps {{this.value}}"
+                   {{#if this.checked}}checked="checked"{{/if}} />
+          </div>
+          <div>{{this.label}}</div>
         {{/each}}
       </div>
     </fieldset>
   </section>
-
 </form>
-
