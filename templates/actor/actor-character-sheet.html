@@ -1,109 +1,159 @@
 <form class="{{cssClass}} {{actor.type}} flexcol" autocomplete="off">
-
-  {{!-- Sheet Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-    <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
-      {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
-      use both the "grid" and "grid-Ncol" class where "N" can be any number
-      from 1 to 12 and will create that number of columns.  --}}
-      <div class="resources grid grid-3col">
-
-        {{!-- "flex-group-center" is also defined in the _grid.scss file
-        and it will add a small amount of padding, a border, and will
-        center all of its child elements content and text. --}}
+  <header class="flexcol">
+    <div class="flexrow">
+      <div class="resource">
+        <label for="actor.name" class="resource-label">__nom</label>
+        <div class="resource-content flexrow flex-center flex-between">
+          <input type="text" name="actor.name" id="actor.name" value="{{actor.name}}" data-dtype="String" />
+        </div>
+      </div>
+      <div class="resource">
         <div class="resource flex-group-center">
-          <label for="system.health.value" class="resource-label">Health</label>
+          <label for="system.profession" class="resource-label">__profession</label>
           <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
-          <span> / </span>
-          <input type="text" name="system.health.max" value="{{system.health.max}}" data-dtype="Number"/>
+            <input type="text" name="system.profession" id="system.profession" value="{{system.profession}}"
+                   data-dtype="String" />
           </div>
         </div>
-
         <div class="resource flex-group-center">
-          <label for="system.power.value" class="resource-label">Power</label>
+          <label for="system.personality" class="resource-label">__personnalité</label>
           <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.power.value" value="{{system.power.value}}" data-dtype="Number"/>
-          <span> / </span>
-          <input type="text" name="system.power.max" value="{{system.power.max}}" data-dtype="Number"/>
+            <input type="text" name="system.personality" id="system.personality" value="{{system.personality}}"
+                   data-dtype="String" />
           </div>
         </div>
-
-        <div class="resource flex-group-center">
-          <label for="system.attributes.level.value" class="resource-label">Level</label>
-          <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.attributes.level.value" value="{{system.attributes.level.value}}" data-dtype="Number"/>
-          </div>
+      </div>
+    </div>
+    <div class="flexrow">
+      <div class="resource">
+        <label for="system.advantage" class="resource-label">__avantage</label>
+        <div class="resource-content flexrow flex-center flex-between">
+          <input type="text" name="system.advantage" id="system.advantage" value="{{system.advantage}}"
+                 data-dtype="String" />
         </div>
-
+      </div>
+      <div class="resource">
+        <label for="system.disadvantage" class="resource-label">__désavantage</label>
+        <div class="resource-content flexrow flex-center flex-between">
+          <input type="text" name="system.disadvantage" id="system.disadvantage" value="{{system.disadvantage}}"
+                 data-dtype="String" />
+        </div>
       </div>
     </div>
   </header>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    {{!-- Default tab is specified in actor-sheet.mjs --}}
-    <a class="item" data-tab="features">Features</a>
-    <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="items">Items</a>
-    <a class="item" data-tab="spells">Spells</a>
-    <a class="item" data-tab="effects">Effects</a>
-  </nav>
-
-  {{!-- Sheet Body --}}
-  <section class="sheet-body">
-
-    {{!-- Owned Features Tab --}}
-    <div class="tab features" data-group="primary" data-tab="features">
-      <section class="grid grid-3col">
-        <aside class="sidebar">
-
-          {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
-          use both the "grid" and "grid-Ncol" class where "N" can be any number
-          from 1 to 12 and will create that number of columns.  --}}
-          <div class="abilities flexcol">
-            {{#each system.abilities as |ability key|}}
-            <div class="ability flexrow flex-group-center">
-              <label for="system.abilities.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll="d20+@abilities.{{key}}.mod" data-label="{{ability.label}}">{{ability.label}}</label>
-              <input type="text" name="system.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number"/>
-              <span class="ability-mod rollable" data-roll="d20+@abilities.{{key}}.mod" data-label="{{ability.label}}">{{numberFormat ability.mod decimals=0 sign=true}}</span>
-            </div>
-            {{/each}}
-          </div>
-        </aside>
-
-        {{!-- For the main features list, span the right two columns --}}
-        <section class="main grid-span-2">
-          {{!-- This is a Handlebars partial. They're stored in the `/parts` folder next to this sheet, and defined in module/helpers/templates.mjs --}}
-          {{> "systems/sombre-classic/templates/actor/parts/actor-features.html"}}
-        </section>
-
-      </section>
+  <section class="flexrow">
+    <div>
+      <h2>__Esprit ({{system.mind.value}})</h2>
+      <p>1. __Équilibré</p>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <p>2. __Perturbé</p>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <p>3. __Désaxé</p>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <p>__Fou</p>
     </div>
+    <div>
+      <div><p>&nbsp;</p></div>
+      <div>12</div>
+      <div>
+        <input type="checkbox" value="11" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 11}}} />
+        11
+        <input type="checkbox" value="11" class="js-gauge" data-type="body" {{{setChecked system.body.value 11}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="10" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 10}}} />
+        10
+        <input type="checkbox" value="10" class="js-gauge" data-type="body" {{{setChecked system.body.value 10}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="9" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 9}}} />
+        9
+        <input type="checkbox" value="9" class="js-gauge" data-type="body" {{{setChecked system.body.value 9}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="8" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 8}}} />
+        8
+        <input type="checkbox" value="8" class="js-gauge" data-type="body" {{{setChecked system.body.value 8}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="7" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 7}}} />
+        7
+        <input type="checkbox" value="7" class="js-gauge" data-type="body" {{{setChecked system.body.value 7}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="6" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 6}}} />
+        6
+        <input type="checkbox" value="6" class="js-gauge" data-type="body" {{{setChecked system.body.value 6}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="5" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 5}}} />
+        5
+        <input type="checkbox" value="5" class="js-gauge" data-type="body" {{{setChecked system.body.value 5}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="4" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 4}}} />
+        4
+        <input type="checkbox" value="4" class="js-gauge" data-type="body" {{{setChecked system.body.value 4}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="3" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 3}}} />
+        3
+        <input type="checkbox" value="3" class="js-gauge" data-type="body" {{{setChecked system.body.value 3}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="2" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 2}}} />
+        2
+        <input type="checkbox" value="2" class="js-gauge" data-type="body" {{{setChecked system.body.value 2}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="1" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 1}}} />
+        1
+        <input type="checkbox" value="1" class="js-gauge" data-type="body" {{{setChecked system.body.value 1}}} />
+      </div>
+      <div>
+        <input type="checkbox" value="0" class="js-gauge" data-type="mind" {{{setChecked system.mind.value 0}}} />
 
-    {{!-- Biography Tab --}}
-    <div class="tab biography" data-group="primary" data-tab="description">
-      {{!-- If you want TinyMCE editors to output inline rolls when rendered, you need to pass the actor's roll data to the rollData property. --}}
-      {{editor system.biography target="system.biography" rollData=rollData button=true owner=owner editable=editable}}
+        <input type="checkbox" value="0" class="js-gauge" data-type="body" {{{setChecked system.body.value 0}}} />
+      </div>
     </div>
-
-    {{!-- Owned Items Tab --}}
-    <div class="tab items" data-group="primary" data-tab="items">
-       {{> "systems/sombre-classic/templates/actor/parts/actor-items.html"}}
+    <div>
+      <h2>__Corps ({{system.body.value}})</h2>
+      <div>
+        <p>
+          __Indemne
+          <input type="checkbox" />
+        </p>
+      </div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <div>
+        <p>
+          __Blessé
+          <input type="checkbox" />
+        </p>
+      </div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <div>
+        <p>
+          __Mutilé
+          <input type="checkbox" />
+        </p>
+      </div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <p>__Mort</p>
     </div>
-
-    {{!-- Owned Spells Tab --}}
-    <div class="tab spells" data-group="primary" data-tab="spells">
-      {{> "systems/sombre-classic/templates/actor/parts/actor-spells.html"}}
-    </div>
-
-    {{!-- Active Effects Tab --}}
-    <div class="tab effects flexcol" data-group="primary" data-tab="effects">
-      {{> "systems/sombre-classic/templates/actor/parts/actor-effects.html"}}
-    </div>
-
   </section>
 </form>
 
