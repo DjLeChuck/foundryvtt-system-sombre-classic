@@ -1,4 +1,4 @@
-import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
+import { onManageActiveEffect, prepareActiveEffectCategories } from '../helpers/effects.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -9,11 +9,10 @@ export class SombreActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["sombre-classic", "sheet", "actor"],
-      template: "systems/sombre-classic/templates/actor/actor-sheet.html",
+      classes: ['sombre-classic', 'sheet', 'actor'],
+      template: 'systems/sombre-classic/templates/actor/actor-sheet.html',
       width: 600,
       height: 600,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "features" }]
     });
   }
 
@@ -28,7 +27,7 @@ export class SombreActorSheet extends ActorSheet {
   getData() {
     // Retrieve the data structure from the base sheet. You can inspect or log
     // the context variable to see the structure, but some key properties for
-    // sheets are the actor object, the data object, whether or not it's
+    // sheets are the actor object, the data object, whether it's
     // editable, the items array, and the effects array.
     const context = super.getData();
 
@@ -40,13 +39,13 @@ export class SombreActorSheet extends ActorSheet {
     context.flags = actorData.flags;
 
     // Prepare character data and items.
-    if (actorData.type == 'character') {
+    if ('character' === actorData.type) {
       this._prepareItems(context);
       this._prepareCharacterData(context);
     }
 
     // Prepare NPC data and items.
-    if (actorData.type == 'npc') {
+    if ('npc' === actorData.type) {
       this._prepareItems(context);
     }
 
@@ -62,64 +61,21 @@ export class SombreActorSheet extends ActorSheet {
   /**
    * Organize and classify Items for Character sheets.
    *
-   * @param {Object} actorData The actor to prepare.
+   * @param {Object} context The actor to prepare.
    *
    * @return {undefined}
    */
   _prepareCharacterData(context) {
-    // Handle ability scores.
-    for (let [k, v] of Object.entries(context.system.abilities)) {
-      v.label = game.i18n.localize(CONFIG.BOILERPLATE.abilities[k]) ?? k;
-    }
   }
 
   /**
    * Organize and classify Items for Character sheets.
    *
-   * @param {Object} actorData The actor to prepare.
+   * @param {Object} context The actor to prepare.
    *
    * @return {undefined}
    */
   _prepareItems(context) {
-    // Initialize containers.
-    const gear = [];
-    const features = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: []
-    };
-
-    // Iterate through items, allocating to containers
-    for (let i of context.items) {
-      i.img = i.img || DEFAULT_TOKEN;
-      // Append to gear.
-      if (i.type === 'item') {
-        gear.push(i);
-      }
-      // Append to features.
-      else if (i.type === 'feature') {
-        features.push(i);
-      }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        if (i.system.spellLevel != undefined) {
-          spells[i.system.spellLevel].push(i);
-        }
-      }
-    }
-
-    // Assign and return
-    context.gear = gear;
-    context.features = features;
-    context.spells = spells;
   }
 
   /* -------------------------------------------- */
@@ -130,8 +86,8 @@ export class SombreActorSheet extends ActorSheet {
 
     // Render the item sheet for viewing/editing prior to the editable check.
     html.find('.item-edit').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.items.get(li.data("itemId"));
+      const li = $(ev.currentTarget).parents('.item');
+      const item = this.actor.items.get(li.data('itemId'));
       item.sheet.render(true);
     });
 
@@ -139,19 +95,40 @@ export class SombreActorSheet extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
+    html[0].querySelectorAll('.js-gauge').forEach(chk => chk.addEventListener('input', e => {
+      const target = e.currentTarget;
+      const gaugeItems = html[0].querySelectorAll(`[data-type="${target.dataset.type}"]`);
+      let targetValue = parseInt(target.value, 10);
+
+      // If unchecked, add one to set previous value
+      if (!target.checked) {
+        ++targetValue;
+      }
+
+      gaugeItems.forEach(item => {
+        if (item !== target) {
+          item.checked = parseInt(item.value, 10) > targetValue;
+        }
+      });
+
+      this.actor.update({
+        [`system.${target.dataset.type}.value`]: targetValue,
+      });
+    }));
+
     // Add Inventory Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.items.get(li.data("itemId"));
+      const li = $(ev.currentTarget).parents('.item');
+      const item = this.actor.items.get(li.data('itemId'));
       item.delete();
       li.slideUp(200, () => this.render(false));
     });
 
     // Active Effect management
-    html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
+    html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.actor));
 
     // Rollable abilities.
     html.find('.rollable').click(this._onRoll.bind(this));
@@ -160,9 +137,9 @@ export class SombreActorSheet extends ActorSheet {
     if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);
       html.find('li.item').each((i, li) => {
-        if (li.classList.contains("inventory-header")) return;
-        li.setAttribute("draggable", true);
-        li.addEventListener("dragstart", handler, false);
+        if (li.classList.contains('inventory-header')) return;
+        li.setAttribute('draggable', true);
+        li.addEventListener('dragstart', handler, false);
       });
     }
   }
@@ -185,13 +162,13 @@ export class SombreActorSheet extends ActorSheet {
     const itemData = {
       name: name,
       type: type,
-      system: data
+      system: data,
     };
     // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.system["type"];
+    delete itemData.system['type'];
 
     // Finally, create the item!
-    return await Item.create(itemData, {parent: this.actor});
+    return await Item.create(itemData, { parent: this.actor });
   }
 
   /**
@@ -206,7 +183,7 @@ export class SombreActorSheet extends ActorSheet {
 
     // Handle item rolls.
     if (dataset.rollType) {
-      if (dataset.rollType == 'item') {
+      if ('item' === dataset.rollType) {
         const itemId = element.closest('.item').dataset.itemId;
         const item = this.actor.items.get(itemId);
         if (item) return item.roll();
@@ -225,5 +202,4 @@ export class SombreActorSheet extends ActorSheet {
       return roll;
     }
   }
-
 }
