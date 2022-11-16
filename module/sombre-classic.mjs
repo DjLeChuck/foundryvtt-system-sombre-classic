@@ -67,10 +67,6 @@ Handlebars.registerHelper('toLowerCase', function (str) {
   return str.toLowerCase();
 });
 
-Handlebars.registerHelper('setChecked', (current, compared) => {
-  return compared >= current ? ' checked="checked"' : '';
-});
-
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
@@ -80,7 +76,7 @@ Hooks.once('ready', async function () {
   Hooks.on('hotbarDrop', (bar, data, slot) => createItemMacro(data, slot));
 
   // Open actor sheet
-  game.actors.get('Cb9lh58AnnthcXnz').sheet.render(true);
+  game.actors.get('RXnfzZvyUS1L9ugg').sheet.render(true);
 });
 
 /* -------------------------------------------- */

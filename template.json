@@ -18,8 +18,8 @@
         },
         "profession": "",
         "personality": "",
-        "advantage": "",
-        "disadvantage": ""
+        "advantage": null,
+        "disadvantage": null
       }
     },
     "character": {

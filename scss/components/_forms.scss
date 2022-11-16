@@ -26,6 +26,7 @@
     padding: 0px;
     margin: 5px 0;
     border-bottom: 0;
+
     input {
       width: 100%;
       height: 100%;
@@ -52,4 +53,61 @@
   .tox-edit-area {
     padding: 0 8px;
   }
+}
+
+/* Radios and checkboxes */
+input[type="radio"],
+input[type="checkbox"] {
+  @include element-invisible;
+}
+
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+  position: relative;
+}
+
+input[type="radio"] + label::before,
+input[type="checkbox"] + label::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
+input[type="checkbox"] + label.threshold::before {
+  border-radius: 0;
+}
+
+input[type="radio"]:checked + label::before,
+input[type="checkbox"]:checked + label::before {
+  content: "";
+  display: inline-block;
+  background: orange;
+  border-color: orange;
+}
+
+input[type="checkbox"]:checked + label::after {
+  content: "\002713";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 0;
+  left: 4px;
+  color: white;
+}
+
+input[type="radio"]:checked + label::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: white;
+  border-radius: 4px;
 }

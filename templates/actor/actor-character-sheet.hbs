@@ -8,16 +8,14 @@
         </div>
       </div>
       <div class="resource">
-        <div class="resource flex-group-center">
-          <label for="system.profession" class="resource-label">__profession</label>
+        <div class="resource">
+          <span class="resource-label">
+            <label for="system.profession">__profession</label>
+            <label for="system.personality">__personnalité</label>
+          </span>
           <div class="resource-content flexrow flex-center flex-between">
             <input type="text" name="system.profession" id="system.profession" value="{{system.profession}}"
                    data-dtype="String" />
-          </div>
-        </div>
-        <div class="resource flex-group-center">
-          <label for="system.personality" class="resource-label">__personnalité</label>
-          <div class="resource-content flexrow flex-center flex-between">
             <input type="text" name="system.personality" id="system.personality" value="{{system.personality}}"
                    data-dtype="String" />
           </div>
@@ -49,17 +47,21 @@
         {{#each mind_gauge}}
           <div>{{this.label}}</div>
           <div>
-            <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="mind"
-                   aria-label="__Esprit {{this.value}}" title="__Esprit {{this.value}}"
-                   {{#if this.checked}}checked="checked"{{/if}} />
+            {{#if this.add_checkbox}}
+              <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="mind"
+                     aria-label="__Esprit {{this.value}}" title="__Esprit {{this.value}}"
+                     id="mind-{{this.value}}"{{#if this.checked}} checked="checked"{{/if}} />
+              <label for="mind-{{this.value}}"{{#if this.threshold}} class="threshold"{{/if}}>
+                <span class="visually-hidden">__Esprit {{this.value}}</span>
+              </label>
+            {{/if}}
           </div>
         {{/each}}
       </div>
     </fieldset>
     <div class="grid grid-2col">
       {{#each mind_gauge}}
-        <div></div>
-        <div>{{this.value}}</div>
+        <div class="grid-start-2">{{this.value}}</div>
       {{/each}}
     </div>
     <fieldset>
@@ -67,9 +69,14 @@
       <div class="grid">
         {{#each body_gauge}}
           <div>
-            <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="body"
-                   aria-label="__Corps {{this.value}}" title="__Corps {{this.value}}"
-                   {{#if this.checked}}checked="checked"{{/if}} />
+            {{#if this.add_checkbox}}
+              <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="body"
+                     aria-label="__Corps {{this.value}}" title="__Corps {{this.value}}"
+                     id="body-{{this.value}}"{{#if this.checked}} checked="checked"{{/if}} />
+              <label for="body-{{this.value}}"{{#if this.threshold}} class="threshold"{{/if}}>
+                <span class="visually-hidden">__Corps {{this.value}}</span>
+              </label>
+            {{/if}}
           </div>
           <div>{{this.label}}</div>
         {{/each}}

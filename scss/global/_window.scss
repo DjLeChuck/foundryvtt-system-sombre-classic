@@ -10,3 +10,7 @@
     cursor: pointer;
   }
 }
+
+.visually-hidden {
+  @include element-invisible;
+}

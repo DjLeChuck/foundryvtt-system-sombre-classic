@@ -70,27 +70,34 @@ export class SombreActorSheet extends ActorSheet {
       12: '__Équilibré',
       8: '__Perturbé',
       4: '__Désaxé',
-      0: '__Mort',
+      0: '__Fou',
     };
     const bodyLabels = {
       12: '__Indemne',
       8: '__Blessé',
       4: '__Mutilé',
-      0: '__Fou',
+      0: '__Mort',
     };
 
     context.mind_gauge = [];
     context.body_gauge = [];
 
     for (let i = 12; i >= 0; i--) {
+      const mindLabel = mindLabels[i] ?? null;
+      const bodyLabel = bodyLabels[i] ?? null;
+
       context.mind_gauge.push({
-        label: mindLabels[i] ?? null,
+        add_checkbox: 12 !== i,
+        label: mindLabel,
+        threshold: null !== mindLabel,
         value: i,
         checked: context.system.mind.value <= i,
       });
 
       context.body_gauge.push({
-        label: bodyLabels[i] ?? null,
+        add_checkbox: 12 !== i,
+        label: bodyLabel,
+        threshold: null !== bodyLabel,
         value: i,
         checked: context.system.body.value <= i,
       });
