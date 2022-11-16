@@ -180,6 +180,19 @@ export class SombreActorSheet extends ActorSheet {
     }
   }
 
+  async _onDropItemCreate(itemData) {
+    switch (item.type) {
+      case 'advantage':
+        // cascade
+      case 'disadvantage':
+        // Remove existing advantage/disadvantage
+        break;
+    }
+
+    itemData = itemData instanceof Array ? itemData : [itemData];
+    return this.actor.createEmbeddedDocuments('Item', itemData);
+  }
+
   /**
    * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
    * @param {Event} event   The originating click event

@@ -25,16 +25,14 @@
     <div class="flexrow">
       <div class="resource">
         <label for="system.advantage" class="resource-label">__avantage</label>
-        <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.advantage" id="system.advantage" value="{{system.advantage}}"
-                 data-dtype="String" />
+        <div class="resource-content">
+          {{log system.advantage}}
         </div>
       </div>
       <div class="resource">
         <label for="system.disadvantage" class="resource-label">__désavantage</label>
-        <div class="resource-content flexrow flex-center flex-between">
-          <input type="text" name="system.disadvantage" id="system.disadvantage" value="{{system.disadvantage}}"
-                 data-dtype="String" />
+        <div class="resource-content">
+          {{log system.disadvantage}}
         </div>
       </div>
     </div>
