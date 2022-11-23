@@ -102,6 +102,9 @@ export class SombreActorSheet extends ActorSheet {
         checked: context.system.body.value <= i,
       });
     }
+
+    context.advantage = this.actor.items.find(i => 'advantage' === i.type);
+    context.disadvantage = this.actor.items.find(i => 'disadvantage' === i.type);
   }
 
   /**
@@ -131,7 +134,7 @@ export class SombreActorSheet extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
-    html[0].querySelectorAll('.js-gauge').forEach(chk => chk.addEventListener('input', e => {
+    html[0].querySelectorAll('.js-gauge').forEach(el => el.addEventListener('input', e => {
       const target = e.currentTarget;
       const gaugeItems = html[0].querySelectorAll(`[data-type="${target.dataset.type}"]`);
       let targetValue = parseInt(target.value, 10);
@@ -156,12 +159,14 @@ export class SombreActorSheet extends ActorSheet {
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
     // Delete Inventory Item
-    html.find('.item-delete').click(ev => {
-      const li = $(ev.currentTarget).parents('.item');
-      const item = this.actor.items.get(li.data('itemId'));
-      item.delete();
-      li.slideUp(200, () => this.render(false));
-    });
+    html[0].querySelectorAll('.js-item-delete').forEach(el => el.addEventListener('click', e => {
+      e.preventDefault();
+
+      const item = this.actor.items.get(e.currentTarget.dataset.itemId);
+      if (item) {
+        item.delete();
+      }
+    }));
 
     // Active Effect management
     html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.actor));
@@ -181,16 +186,34 @@ export class SombreActorSheet extends ActorSheet {
   }
 
   async _onDropItemCreate(itemData) {
-    switch (item.type) {
-      case 'advantage':
+    itemData = itemData instanceof Array ? itemData : [itemData];
+    const newItems = await this.actor.createEmbeddedDocuments('Item', itemData);
+
+    newItems.forEach(item => {
+      switch (item.type) {
+        case 'advantage':
         // cascade
-      case 'disadvantage':
-        // Remove existing advantage/disadvantage
-        break;
+        case 'disadvantage':
+          this._removeCurrentAdvantageDisadvantage(item.type);
+          this.actor.update({ [`system.${item.type}`]: item.id });
+
+          break;
+      }
+    });
+  }
+
+  _removeCurrentAdvantageDisadvantage(type) {
+    const itemId = this.actor.system[type] ?? null;
+    if (null === itemId) {
+      return;
     }
 
-    itemData = itemData instanceof Array ? itemData : [itemData];
-    return this.actor.createEmbeddedDocuments('Item', itemData);
+    const item = this.actor.items.get(itemId);
+    if (!item) {
+      return;
+    }
+
+    item.delete();
   }
 
   /**

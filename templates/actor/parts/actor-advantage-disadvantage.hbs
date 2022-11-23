@@ -1,0 +1,12 @@
+<div class="resource">
+  <label for="system.{{type}}" class="resource-label">{{label}}</label>
+  <div class="resource-content">
+    {{#if item}}
+      {{item.name}}
+
+      <a class="js-item-delete" title="__Delete Item" data-item-id="{{item.id}}">
+        <i class="fas fa-trash"></i>
+      </a>
+    {{/if}}
+  </div>
+</div>

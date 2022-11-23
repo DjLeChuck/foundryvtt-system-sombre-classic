@@ -23,18 +23,16 @@
       </div>
     </div>
     <div class="flexrow">
-      <div class="resource">
-        <label for="system.advantage" class="resource-label">__avantage</label>
-        <div class="resource-content">
-          {{log system.advantage}}
-        </div>
-      </div>
-      <div class="resource">
-        <label for="system.disadvantage" class="resource-label">__désavantage</label>
-        <div class="resource-content">
-          {{log system.disadvantage}}
-        </div>
-      </div>
+      {{> 'systems/sombre-classic/templates/actor/parts/actor-advantage-disadvantage.hbs'
+          type='advantage'
+          label='__avantage'
+          item=advantage
+      }}
+      {{> 'systems/sombre-classic/templates/actor/parts/actor-advantage-disadvantage.hbs'
+          type='disadvantage'
+          label='__disavantage'
+          item=disadvantage
+      }}
     </div>
   </header>
 
