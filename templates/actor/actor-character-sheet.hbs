@@ -40,7 +40,17 @@
       <legend>__Esprit</legend>
       <div class="grid grid-2col">
         {{#each mind_gauge}}
-          <div>{{this.label}}</div>
+          <div>
+            {{this.label}}
+
+            {{#if @first}}
+              <div class="item-image">
+                <a class="rollable" data-roll="d20<=@mind.value">
+                  <img src="/icons/dice/d6black.svg" title="{{item.name}}" width="24" height="24"/>
+                </a>
+              </div>
+            {{/if}}
+          </div>
           <div>
             {{#if this.add_checkbox}}
               <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="mind"
@@ -64,6 +74,14 @@
       <div class="grid">
         {{#each body_gauge}}
           <div>
+            {{#if @first}}
+              <div class="item-image">
+                <a class="rollable" data-roll="d20<=@body.value">
+                  <img src="/icons/dice/d6black.svg" title="{{item.name}}" width="24" height="24"/>
+                </a>
+              </div>
+            {{/if}}
+
             {{#if this.add_checkbox}}
               <input type="checkbox" value="{{this.value}}" class="js-gauge" data-type="body"
                      aria-label="__Corps {{this.value}}" title="__Corps {{this.value}}"
