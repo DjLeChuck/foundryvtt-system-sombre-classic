@@ -17,7 +17,7 @@
           "max": 12
         },
         "profession": "",
-        "personality": "",
+        "personality": null,
         "advantage": null,
         "disadvantage": null
       }
@@ -38,7 +38,8 @@
     "types": [
       "item",
       "advantage",
-      "disadvantage"
+      "disadvantage",
+      "personality"
     ],
     "templates": {
       "base": {
@@ -58,6 +59,23 @@
     "disadvantage": {
       "templates": [
         "base"
+      ]
+    },
+    "personality": {
+      "currentLevel": 1,
+      "levels": [
+        {
+          "name": "",
+          "description": ""
+        },
+        {
+          "name": "",
+          "description": ""
+        },
+        {
+          "name": "",
+          "description": ""
+        }
       ]
     }
   }

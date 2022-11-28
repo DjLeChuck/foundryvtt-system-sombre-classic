@@ -105,6 +105,7 @@ export class SombreActorSheet extends ActorSheet {
 
     context.advantage = this.actor.items.find(i => 'advantage' === i.type);
     context.disadvantage = this.actor.items.find(i => 'disadvantage' === i.type);
+    context.personality = this.actor.items.find(i => 'personality' === i.type);
   }
 
   /**
@@ -194,7 +195,9 @@ export class SombreActorSheet extends ActorSheet {
         case 'advantage':
         // cascade
         case 'disadvantage':
-          this._removeCurrentAdvantageDisadvantage(item.type);
+        // cascade
+        case 'personality':
+          this._removeCurrentItemAsCharacteristic(item.type);
           this.actor.update({ [`system.${item.type}`]: item.id });
 
           break;
@@ -202,7 +205,7 @@ export class SombreActorSheet extends ActorSheet {
     });
   }
 
-  _removeCurrentAdvantageDisadvantage(type) {
+  _removeCurrentItemAsCharacteristic(type) {
     const itemId = this.actor.system[type] ?? null;
     if (null === itemId) {
       return;
