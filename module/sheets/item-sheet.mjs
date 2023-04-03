@@ -3,20 +3,19 @@
  * @extends {ItemSheet}
  */
 export class SombreItemSheet extends ItemSheet {
-
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["sombre-classic", "sheet", "item"],
+      classes: ['sombre-classic', 'sheet', 'item'],
       width: 520,
       height: 480,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
+      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'description' }],
     });
   }
 
   /** @override */
   get template() {
-    const path = "systems/sombre-classic/templates/item";
+    const path = 'systems/sombre-classic/templates/item';
     // Return a single sheet for all item types.
     // return `${path}/item-sheet.hbs`;
 
@@ -28,23 +27,27 @@ export class SombreItemSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
+  async getData() {
     // Retrieve base data structure.
-    const context = super.getData();
+    const context = await super.getData();
 
     // Use a safe clone of the item data for further operations.
     const itemData = context.item;
 
-    // Retrieve the roll data for TinyMCE editors.
-    context.rollData = {};
-    let actor = this.object?.parent ?? null;
-    if (actor) {
-      context.rollData = actor.getRollData();
-    }
-
     // Add the actor's data to context.data for easier access, as well as flags.
     context.system = itemData.system;
     context.flags = itemData.flags;
+
+    if ('personality' === this.object.type) {
+      context.enrichedLevelsDescriptions = {};
+
+      for (const [key, level] of Object.entries(this.object.system.levels)) {
+        context.enrichedLevelsDescriptions[key] =
+          await TextEditor.enrichHTML(level.description, { async: true });
+      }
+    } else {
+      context.enrichedDescription = await TextEditor.enrichHTML(this.object.system.description, { async: true });
+    }
 
     return context;
   }

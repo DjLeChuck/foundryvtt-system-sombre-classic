@@ -12,13 +12,23 @@ export class SombreItem extends Item {
     super.prepareData();
   }
 
+  prepareDerivedData() {
+    const itemData = this;
+    const systemData = itemData.system;
+    const flags = itemData.flags.sombreClassic || {};
+
+    // Make separate methods for each Actor type (character, npc, etc.) to keep
+    // things organized.
+    this._preparePersonalityData(itemData);
+  }
+
   /**
    * Prepare a data object which is passed to any Roll formulas which are created related to this Item
    * @private
    */
-   getRollData() {
+  getRollData() {
     // If present, return the actor's roll data.
-    if ( !this.actor ) return null;
+    if (!this.actor) return null;
     const rollData = this.actor.getRollData();
     // Grab the item's system data as well.
     rollData.item = foundry.utils.deepClone(this.system);
@@ -45,7 +55,7 @@ export class SombreItem extends Item {
         speaker: speaker,
         rollMode: rollMode,
         flavor: label,
-        content: item.system.description ?? ''
+        content: item.system.description ?? '',
       });
     }
     // Otherwise, create a roll and send a chat message from it.
@@ -64,5 +74,16 @@ export class SombreItem extends Item {
       });
       return roll;
     }
+  }
+
+  async _preparePersonalityData(itemData) {
+    if (itemData.type !== 'personality' || !this.actor) return;
+
+    const level = this.actor.getPersonalityLevel();
+
+    await this.update({
+      'name': this.system.levels[`lvl${level}`].name,
+      'system.current': `lvl${level}`,
+    });
   }
 }

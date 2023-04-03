@@ -62,21 +62,21 @@
       ]
     },
     "personality": {
-      "currentLevel": 1,
-      "levels": [
-        {
+      "current": "lvl1",
+      "levels": {
+        "lvl1": {
           "name": "",
           "description": ""
         },
-        {
+        "lvl2": {
           "name": "",
           "description": ""
         },
-        {
+        "lvl3": {
           "name": "",
           "description": ""
         }
-      ]
+      }
     }
   }
 }

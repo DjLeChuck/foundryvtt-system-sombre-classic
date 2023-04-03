@@ -85,4 +85,18 @@ export class SombreActor extends Actor {
   _getNpcRollData(data) {
     if (this.type !== 'npc') return;
   }
+
+  getPersonalityLevel() {
+    const mindValue = this.system.mind.value;
+
+    if (8 < mindValue) {
+      return 1;
+    }
+
+    if (4 < mindValue) {
+      return 2;
+    }
+
+    return 3;
+  }
 }
