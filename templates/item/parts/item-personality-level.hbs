@@ -1,0 +1,7 @@
+<p>
+  <input name="system.levels.lvl{{level}}.name" type="text" value="{{personalityLevelName item level}}"
+         placeholder="__Nom" data-dtype="String" />
+</p>
+
+{{editor (lookup enrichedLevelsDescriptions (concat "lvl" level))
+         target=(concat "system.levels.lvl" level ".description") button=true editable=editable}}

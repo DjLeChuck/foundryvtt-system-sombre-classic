@@ -44,6 +44,9 @@
     "templates": {
       "base": {
         "description": ""
+      },
+      "trait": {
+        "supernatural": false
       }
     },
     "item": {
@@ -53,12 +56,14 @@
     },
     "advantage": {
       "templates": [
-        "base"
+        "base",
+        "trait"
       ]
     },
     "disadvantage": {
       "templates": [
-        "base"
+        "base",
+        "trait"
       ]
     },
     "personality": {
