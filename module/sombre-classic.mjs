@@ -13,26 +13,12 @@ import { SOMBRE } from './helpers/config.mjs';
 /* -------------------------------------------- */
 
 Hooks.once('init', async function () {
-
-  // Add utility classes to the global game object so that they're more easily
-  // accessible in global contexts.
   game.sombreClassic = {
-    SombreActor,
-    SombreItem,
     rollItemMacro,
   };
 
   // Add custom constants for configuration.
   CONFIG.SOMBRE = SOMBRE;
-
-  /**
-   * Set an initiative formula for the system
-   * @type {String}
-   */
-  CONFIG.Combat.initiative = {
-    formula: '1d20 + @abilities.dex.mod',
-    decimals: 2,
-  };
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = SombreActor;
@@ -40,9 +26,9 @@ Hooks.once('init', async function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet('sombre-classic', SombreActorSheet, { makeDefault: true });
+  Actors.registerSheet('sombreClassic', SombreActorSheet, { makeDefault: true });
   Items.unregisterSheet('core', ItemSheet);
-  Items.registerSheet('sombre-classic', SombreItemSheet, { makeDefault: true });
+  Items.registerSheet('sombreClassic', SombreItemSheet, { makeDefault: true });
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();
@@ -52,20 +38,9 @@ Hooks.once('init', async function () {
 /*  Handlebars Helpers                          */
 /* -------------------------------------------- */
 
-// If you need to add Handlebars helpers, here are a few useful examples:
-Handlebars.registerHelper('concat', function () {
-  var outStr = '';
-  for (var arg in arguments) {
-    if (typeof arguments[arg] != 'object') {
-      outStr += arguments[arg];
-    }
-  }
-  return outStr;
-});
+Handlebars.registerHelper('toLowerCase', str => str.toLowerCase());
 
-Handlebars.registerHelper('toLowerCase', function (str) {
-  return str.toLowerCase();
-});
+Handlebars.registerHelper('personalityLevelName', (item, level) => item.system.levels[`lvl${level}`]?.name ?? '');
 
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
