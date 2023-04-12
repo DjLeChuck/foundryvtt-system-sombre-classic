@@ -19,7 +19,6 @@ export class SombreItem extends Item {
 
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
-    this._preparePersonalityData(itemData);
   }
 
   /**
@@ -74,16 +73,5 @@ export class SombreItem extends Item {
       });
       return roll;
     }
-  }
-
-  async _preparePersonalityData(itemData) {
-    if (itemData.type !== 'personality' || !this.actor) return;
-
-    const level = this.actor.getPersonalityLevel();
-
-    await this.update({
-      'name': this.system.levels[`lvl${level}`].name,
-      'system.current': `lvl${level}`,
-    });
   }
 }

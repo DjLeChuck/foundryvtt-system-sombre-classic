@@ -99,4 +99,30 @@ export class SombreActor extends Actor {
 
     return 3;
   }
+
+  _onUpdate(data, options, userId) {
+    super._onUpdate(data, options, userId);
+
+    if (data.system?.mind?.value) {
+      this._onMindUpdate(data.system?.mind?.value);
+    }
+  }
+
+  _onMindUpdate(value) {
+    if (!this.system.personality) {
+      return;
+    }
+
+    const item = this.items.get(this.system.personality);
+    if (!item) {
+      return;
+    }
+
+    const level = this.getPersonalityLevel();
+
+    item.update({
+      'name': item.system.levels[`lvl${level}`].name,
+      'system.current': `lvl${level}`,
+    });
+  }
 }
