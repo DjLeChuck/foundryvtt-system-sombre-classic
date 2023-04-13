@@ -100,15 +100,35 @@ export class SombreActor extends Actor {
     return 3;
   }
 
+  async _preUpdate(changed, options, user) {
+    await super._preUpdate(changed, options, user);
+
+    this._onBodyPreUpdate(changed);
+  }
+
   _onUpdate(data, options, userId) {
     super._onUpdate(data, options, userId);
 
+    if (game.user.id !== userId) {
+      return;
+    }
+
     if (data.system?.mind?.value) {
-      this._onMindUpdate(data.system?.mind?.value);
+      this._onMindUpdate();
     }
   }
 
-  _onMindUpdate(value) {
+  _onBodyPreUpdate(changed) {
+    if (!changed.system?.body) {
+      return;
+    }
+
+    [4, 8, 12].forEach((i) => {
+      foundry.utils.setProperty(changed, `system.adrenaline.${i}.unlock`, changed.system.body.value <= i);
+    });
+  }
+
+  _onMindUpdate() {
     if (!this.system.personality) {
       return;
     }

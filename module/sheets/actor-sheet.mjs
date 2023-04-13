@@ -94,18 +94,30 @@ export class SombreActorSheet extends ActorSheet {
         checked: context.system.mind.value <= i,
       });
 
-      context.body_gauge.push({
+      const gaugeData = {
         add_checkbox: 12 !== i,
         label: bodyLabel,
         threshold: null !== bodyLabel,
         value: i,
         checked: context.system.body.value <= i,
-      });
+      };
+
+      this._addAdrenalineData(i, gaugeData);
+
+      context.body_gauge.push(gaugeData);
     }
 
     context.advantage = this.actor.items.find(i => 'advantage' === i.type);
     context.disadvantage = this.actor.items.find(i => 'disadvantage' === i.type);
     context.personality = this.actor.items.find(i => 'personality' === i.type);
+  }
+
+  _addAdrenalineData(level, gaugeData) {
+    if (!this.actor.system.adrenaline[level]) {
+      return;
+    }
+
+    gaugeData.adrenaline = this.actor.system.adrenaline[level];
   }
 
   /**
@@ -172,8 +184,12 @@ export class SombreActorSheet extends ActorSheet {
     // Active Effect management
     html.find('.effect-control').click(ev => onManageActiveEffect(ev, this.actor));
 
+    html.find('[data-gauge-roll]').click(this._onGaugeRoll.bind(this));
+
+    html.find('[data-adrenaline]').click(this._onAdrenalineUse.bind(this));
+
     // Rollable abilities.
-    html.find('.rollable').click(this._onRoll.bind(this));
+    // html.find('.rollable').click(this._onRoll.bind(this));
 
     // Drag events for macros.
     if (this.actor.isOwner) {
@@ -246,6 +262,68 @@ export class SombreActorSheet extends ActorSheet {
     return await Item.create(itemData, { parent: this.actor });
   }
 
+  async _onGaugeRoll(event) {
+    event.preventDefault();
+
+    const element = event.currentTarget;
+    const dataset = element.dataset;
+    const roll = new Roll(`d20<=@${dataset.gaugeRoll}.value`, this.actor.getRollData());
+
+    await roll.evaluate({ async: true });
+
+    const maxResult = this.actor.system[dataset.gaugeRoll].value;
+
+    roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: `__Jet de ${dataset.gaugeRoll} : ${roll.total <= maxResult ? '__Réussite' : '__Échec'}`,
+      rollMode: game.settings.get('core', 'rollMode'),
+    });
+    return roll;
+  }
+
+  async _onAdrenalineUse(event) {
+    event.preventDefault();
+
+    const element = event.currentTarget;
+    if (!element.value) {
+      return;
+    }
+
+    const adrenaline = this.actor.system.adrenaline[element.value];
+    if (!adrenaline) {
+      return;
+    }
+
+    if (!adrenaline.unlock) {
+      ui.notifications.error('__Ce slot d’adrénaline n’est pas encore actif !');
+
+      return;
+    }
+
+    if (adrenaline.activated) {
+      ui.notifications.error('__Ce slot d’adrénaline est déjà activé !');
+
+      return;
+    }
+
+    if (adrenaline.used) {
+      ui.notifications.error('__Ce slot d’adrénaline a déjà été utilisé !');
+
+      return;
+    }
+
+    this.actor.update({ [`system.adrenaline.${element.value}.activated`]: true });
+
+    const speaker = ChatMessage.getSpeaker({ actor: this.actor });
+
+    ChatMessage.create({
+      speaker: speaker,
+      rollMode: CONST.CHAT_MESSAGE_TYPES.OTHER,
+      flavor: '__Utilisation d’adrénaline',
+      content: `__${this.actor.name} fera son prochain jet sous adrénaline !`,
+    });
+  }
+
   /**
    * Handle clickable rolls.
    * @param {Event} event   The originating click event
@@ -253,6 +331,7 @@ export class SombreActorSheet extends ActorSheet {
    */
   _onRoll(event) {
     event.preventDefault();
+
     const element = event.currentTarget;
     const dataset = element.dataset;
 

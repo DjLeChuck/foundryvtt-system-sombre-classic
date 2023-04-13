@@ -45,8 +45,8 @@
 
             {{#if @first}}
               <div class="item-image">
-                <a class="rollable" data-roll="d20<=@mind.value">
-                  <img src="/icons/dice/d6black.svg" title="{{item.name}}" width="24" height="24"/>
+                <a class="rollable" data-roll="d20<=@mind.value" data-gauge-roll="mind">
+                  <img src="/icons/dice/d6black.svg" title="{{item.name}}" width="24" height="24" />
                 </a>
               </div>
             {{/if}}
@@ -71,13 +71,13 @@
     </div>
     <fieldset>
       <legend>__Corps</legend>
-      <div class="grid">
+      <div class="grid grid-3col">
         {{#each body_gauge}}
           <div>
             {{#if @first}}
               <div class="item-image">
-                <a class="rollable" data-roll="d20<=@body.value">
-                  <img src="/icons/dice/d6black.svg" title="{{item.name}}" width="24" height="24"/>
+                <a class="rollable" data-roll="d20<=@body.value" data-gauge-roll="body">
+                  <img src="/icons/dice/d6black.svg" title="{{item.name}}" width="24" height="24" />
                 </a>
               </div>
             {{/if}}
@@ -92,6 +92,20 @@
             {{/if}}
           </div>
           <div>{{this.label}}</div>
+          <div>
+            {{#if this.adrenaline}}
+              <input type="checkbox" value="{{this.value}}" data-adrenaline
+                     aria-label="__Utiliser son adrénaline pour le prochain jet"
+                     id="adrenaline-{{this.value}}"
+                     {{#if this.adrenaline.activated}} checked="checked"{{/if}}
+                     {{#if this.adrenaline.used}} checked="checked"{{/if}}
+                {{#unless this.adrenaline.activated}} disabled="disabled"{{/unless}}
+                {{#unless this.adrenaline.unlock}} disabled="disabled"{{/unless}} />
+              <label for="adrenaline-{{this.value}}" title="__Utiliser son adrénaline pour le prochain jet">
+                <span class="visually-hidden">__Utiliser son adrénaline pour le prochain jet</span>
+              </label>
+            {{/if}}
+          </div>
         {{/each}}
       </div>
     </fieldset>

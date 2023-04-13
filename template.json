@@ -25,13 +25,29 @@
     "character": {
       "templates": [
         "base"
-      ]
+      ],
+      "adrenaline": {
+        "12": {
+          "unlock": true,
+          "activated": false,
+          "used": false
+        },
+        "8": {
+          "unlock": false,
+          "activated":  false,
+          "used": false
+        },
+        "4": {
+          "unlock": false,
+          "activated":  false,
+          "used": false
+        }
+      }
     },
     "npc": {
       "templates": [
         "base"
-      ],
-      "cr": 0
+      ]
     }
   },
   "Item": {
