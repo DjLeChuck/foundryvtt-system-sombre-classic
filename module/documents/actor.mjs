@@ -1,3 +1,5 @@
+import { ADRENALINE_VALUES } from '../helpers/constants.js';
+
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -40,6 +42,55 @@ export class SombreActor extends Actor {
   }
 
   /**
+   * Override getRollData() that's supplied to rolls.
+   */
+  getRollData() {
+    const data = super.getRollData();
+
+    // Prepare character roll data.
+    this._getCharacterRollData(data);
+    this._getNpcRollData(data);
+
+    return data;
+  }
+
+  getPersonalityLevel() {
+    const mindValue = this.system.mind.value;
+
+    if (8 < mindValue) {
+      return 1;
+    }
+
+    if (4 < mindValue) {
+      return 2;
+    }
+
+    return 3;
+  }
+
+  isUnderAdrenaline() {
+    for (const value of ADRENALINE_VALUES) {
+      const adrenaline = this.system.adrenaline[value];
+
+      if (adrenaline && adrenaline.activated && !adrenaline.used) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  spendAdrenaline() {
+    for (const value of ADRENALINE_VALUES) {
+      const adrenaline = this.system.adrenaline[value];
+
+      if (adrenaline && adrenaline.activated && !adrenaline.used) {
+        this.update({ [`system.adrenaline.${value}.used`]: true });
+      }
+    }
+  }
+
+  /**
    * Prepare Character type specific data
    */
   _prepareCharacterData(actorData) {
@@ -60,19 +111,6 @@ export class SombreActor extends Actor {
   }
 
   /**
-   * Override getRollData() that's supplied to rolls.
-   */
-  getRollData() {
-    const data = super.getRollData();
-
-    // Prepare character roll data.
-    this._getCharacterRollData(data);
-    this._getNpcRollData(data);
-
-    return data;
-  }
-
-  /**
    * Prepare character roll data.
    */
   _getCharacterRollData(data) {
@@ -84,20 +122,6 @@ export class SombreActor extends Actor {
    */
   _getNpcRollData(data) {
     if (this.type !== 'npc') return;
-  }
-
-  getPersonalityLevel() {
-    const mindValue = this.system.mind.value;
-
-    if (8 < mindValue) {
-      return 1;
-    }
-
-    if (4 < mindValue) {
-      return 2;
-    }
-
-    return 3;
   }
 
   async _preUpdate(changed, options, user) {
@@ -123,9 +147,9 @@ export class SombreActor extends Actor {
       return;
     }
 
-    [4, 8, 12].forEach((i) => {
-      foundry.utils.setProperty(changed, `system.adrenaline.${i}.unlock`, changed.system.body.value <= i);
-    });
+    for (const value of ADRENALINE_VALUES) {
+      foundry.utils.setProperty(changed, `system.adrenaline.${value}.unlock`, changed.system.body.value <= value);
+    }
   }
 
   _onMindUpdate() {

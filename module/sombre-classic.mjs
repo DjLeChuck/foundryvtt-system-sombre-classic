@@ -41,6 +41,9 @@ Handlebars.registerHelper('toLowerCase', str => str.toLowerCase());
 
 Handlebars.registerHelper('personalityLevelName', (item, level) => item.system.levels[`lvl${level}`]?.name ?? '');
 
+Handlebars.registerHelper('adrenaline_available', (adrenaline) => adrenaline.unlock && !adrenaline.activated && !adrenaline.used);
+Handlebars.registerHelper('adrenaline_active', (adrenaline) => adrenaline.activated || adrenaline.used);
+
 /* -------------------------------------------- */
 /*  Ready Hook                                  */
 /* -------------------------------------------- */

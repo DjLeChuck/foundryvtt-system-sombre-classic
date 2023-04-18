@@ -267,7 +267,7 @@ export class SombreActorSheet extends ActorSheet {
 
     const element = event.currentTarget;
     const dataset = element.dataset;
-    const roll = new Roll(`d20<=@${dataset.gaugeRoll}.value`, this.actor.getRollData());
+    const roll = new Roll(this._gaugeRollFormula(dataset.gaugeRoll), this.actor.getRollData());
 
     await roll.evaluate({ async: true });
 
@@ -312,6 +312,12 @@ export class SombreActorSheet extends ActorSheet {
       return;
     }
 
+    if (this.actor.isUnderAdrenaline()) {
+      ui.notifications.error('__Ce personnage est déjà sous adrénaline !');
+
+      return;
+    }
+
     this.actor.update({ [`system.adrenaline.${element.value}.activated`]: true });
 
     const speaker = ChatMessage.getSpeaker({ actor: this.actor });
@@ -320,7 +326,7 @@ export class SombreActorSheet extends ActorSheet {
       speaker: speaker,
       rollMode: CONST.CHAT_MESSAGE_TYPES.OTHER,
       flavor: '__Utilisation d’adrénaline',
-      content: `__${this.actor.name} fera son prochain jet sous adrénaline !`,
+      content: `__${this.actor.name} fera son prochain jet de Corps sous adrénaline !`,
     });
   }
 
@@ -355,5 +361,15 @@ export class SombreActorSheet extends ActorSheet {
       });
       return roll;
     }
+  }
+
+  _gaugeRollFormula(gaugeType) {
+    if ('body' === gaugeType && this.actor && this.actor.isUnderAdrenaline()) {
+      this.actor.spendAdrenaline();
+
+      return `d20<=${this.actor.system.body.max}`;
+    }
+
+    return `d20<=@${gaugeType}.value`;
   }
 }
