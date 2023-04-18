@@ -1,0 +1,15 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="__Nom" /></h1>
+    </div>
+  </header>
+
+  <section class="sheet-body">
+    <div class="tab">
+      <p>__Description</p>
+      {{editor enrichedDescription target="system.description" button=true editable=editable}}
+    </div>
+  </section>
+</form>

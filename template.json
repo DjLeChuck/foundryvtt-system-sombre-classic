@@ -55,7 +55,9 @@
       "item",
       "advantage",
       "disadvantage",
-      "personality"
+      "personality",
+      "weapon",
+      "rangedWeapon"
     ],
     "templates": {
       "base": {
@@ -98,6 +100,14 @@
           "description": ""
         }
       }
+    },
+    "weapon": {
+      "templates": ["base"]
+    },
+    "rangedWeapon": {
+      "templates": ["base"],
+      "munitions": 0,
+      "reserve": 0
     }
   }
 }
